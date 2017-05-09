@@ -61,7 +61,7 @@ if exists(env_file):
 # Raises ImproperlyConfigured exception if SECRET_KEY not in os.environ
 SECRET_KEY = "z)ak=_ld*qs^(@ic7l3xb_af*(@2ij#@6#()h-+9hs5&o3187a"
 
-ALLOWED_HOSTS = ['galley-mate.herokuapp.com']
+ALLOWED_HOSTS = ['.galley-mate.herokuapp.com']
 
 # Application definition
 

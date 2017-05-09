@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.forms.models import inlineformset_factory
 from .models import *
 
 
@@ -13,14 +12,9 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class FoodAdmin(admin.ModelAdmin):
-    list_display = ('name_sorted', 'name', 'group', 'conversion_src_unit', 'conversion_factor',)
+    list_display = ('name_sorted', 'name', 'group',)
     list_filter = ('group',)
     search_fields = ('name',)
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == 'conversion_src_unit':
-            kwargs["queryset"] = Unit.objects.exclude(type=Unit.TYPE.mass)
-        return super(FoodAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class PhotoInlineAdmin(admin.StackedInline):
@@ -39,7 +33,7 @@ class UnitAdmin(admin.ModelAdmin):
 
 class IngredientAdmin(admin.ModelAdmin):
     model = Ingredient
-    list_display = ('food', 'unit', 'amount', 'prep_method', 'direction',)
+    list_display = ('food', 'unit', 'amount', 'direction',)
 
 
 class IngredientInlineAdmin(admin.TabularInline):
@@ -48,22 +42,14 @@ class IngredientInlineAdmin(admin.TabularInline):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "direction":
-            recipe = self.get_object(request, Recipe)
+            recipe = request.resolver_match.args[0]
             kwargs["queryset"] = Direction.objects.filter(recipe=recipe)
         return super(IngredientInlineAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
-
-    def get_object(self, request, model):
-        object_id = request.META['PATH_INFO'].strip('/').split('/')[-1]
-        try:
-            object_id = int(object_id)
-        except ValueError:
-            return None
-        return model.objects.get(pk=object_id)
 
 
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('title', 'summary', 'slug', 'prep_time',)
-    fields = ('title', 'slug', 'category', 'summary', 'description', 'serving_value', 'serving_string', 'sources', 'prep_time',)
+    fields = ('title', 'slug', 'category', 'summary', 'description', 'serving_value', 'sources', 'prep_time',)
     list_filter = ('title', 'sources',)
     search_fields = ('title', 'description', 'summary',)
     prepopulated_fields = {'slug': ('title',)}
@@ -77,16 +63,11 @@ class RecipeAdmin(admin.ModelAdmin):
         return super(RecipeAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 
-class ServingStringAdmin(admin.ModelAdmin):
-    model = ServingString
-
 admin.site.register(Source, SourceAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(FoodGroup)
 admin.site.register(Food, FoodAdmin)
-admin.site.register(PrepMethod)
 admin.site.register(Photo)
 admin.site.register(Recipe, RecipeAdmin)
 admin.site.register(Unit, UnitAdmin)
 admin.site.register(Ingredient, IngredientAdmin)
-admin.site.register(ServingString, ServingStringAdmin)

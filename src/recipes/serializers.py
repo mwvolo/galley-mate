@@ -6,7 +6,8 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ('title',
+        fields = ('id',
+                  'title',
                   'summary',
                   'description',
                   'slug',
@@ -15,7 +16,6 @@ class RecipeSerializer(serializers.ModelSerializer):
                   'mtime',
                   'sources',
                   'category',
-                  'serving_string',
                   'serving_value',
-                  'get_text',
+                  'get_directions',
                   )

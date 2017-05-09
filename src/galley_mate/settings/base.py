@@ -102,9 +102,9 @@ WSGI_APPLICATION = 'galley_mate.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
-
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+DATABASES = {
+    'default': dj_database_url.config(default='sqlite:///db.sqlite', conn_max_age=500)
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/

@@ -1,0 +1,1 @@
+web: gunicorn galley_mate.wsgi --log-file -

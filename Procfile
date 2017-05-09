@@ -1,1 +1,1 @@
-web: gunicorn galley_mate.wsgi --log-file -
+web: python galley_mate/manage.py run_gunicorn -b 0.0.0.0:$PORT -w 3

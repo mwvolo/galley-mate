@@ -10,6 +10,8 @@ TEMPLATE_DEBUG = False
 # Must mention ALLOWED_HOSTS in production!
 # ALLOWED_HOSTS = ["galley_mate.com"]
 
+SECRET_KEY = 'f_@0a0%cv#i&xzx=o7xe1cz^(ds1tyl#0w$(^=q*h)$dxsg)@w'
+
 # Cache the templates in memory for speed-up
 loaders = [
     ('django.template.loaders.cached.Loader', [

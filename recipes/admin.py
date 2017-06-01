@@ -41,9 +41,9 @@ class IngredientInlineAdmin(admin.TabularInline):
     extra = 6
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "direction":
-            recipe = request.resolver_match.args[0]
-            kwargs["queryset"] = Direction.objects.filter(recipe=recipe)
+        # if db_field.name == "direction":
+        #     recipe = request.resolver_match.args[0]
+        #     kwargs["queryset"] = Direction.objects.filter(recipe=recipe)
         return super(IngredientInlineAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 
